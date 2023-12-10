@@ -24,7 +24,7 @@ Los clústeres de Kubernetes pueden ser configurados de diversas formas. Antes d
 
     linkerd check --pre
 
-## Paso 3: instale Linkerd en su clúster
+## Paso 3: Instalar Linkerd en su clúster
 
 Una vez que la interfaz de línea de comandos (CLI) se está ejecutando localmente y el clúster está listo para operar, es el momento propicio para instalar Linkerd en su clúster de Kubernetes. Para llevar a cabo esta instalación, por favor, ejecute el siguiente comando:
 
@@ -62,7 +62,7 @@ Deberías ver una pantalla como esta:
 
 ¡[image](image](https://github.com/oscarlucas22/Demo-PI/edit/main/README.md)https://github.com/oscarlucas22/Demo-PI/edit/main/imagenes)
 
-## Paso 5: instale la aplicación de demostración
+## Paso 5: Instalar la aplicación de demostración
 
 Vamos a instalar una aplicación de demostración llamada Emojivoto. Emojivoto es una aplicación independiente de Kubernetes que utiliza una combinación de llamadas gRPC y HTTP para permitir a los usuarios votar por sus emojis favoritos.
 
@@ -93,3 +93,74 @@ Al igual que con "install", "inject" es una operación de texto puro, lo que sig
     linkerd -n emojivoto check --proxy
 
 Y, por supuesto, puede visitar http://localhost:8088 para ver nuevamente Emojivoto en todo su esplendor.
+
+## Instalación de Dashboards de Prometheus y Grafana (Opcional)
+
+Si la instalación de Prometheus y Grafana no la incluye nuestra versión de linkerd podemos instalarlos con Helm
+
+### Instalación de Prometheus con Helm (en el namespace de linkerd)
+
+Añadimos la repo de prometheus a Helm
+
+        helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+
+### Paso 1: Instalamos prometheus con helm
+
+        helm install prometheus prometheus-community/prometheus --namespace linkerd
+
+### Paso 2: Exponemos el puerto de prometheus  
+
+        kubectl expose service prometheus-server --type=NodePort --target-port=9090 --name=prometheus-server-np --namespace linkerd
+
+### Paso 3: Arrancamos el servicio de prometheus y lanzamos el dashboard de prometheus
+
+        minikube service prometheus-server-np -n linkerd &
+
+Prometheus dashboard
+
+¡[image]
+
+### Instalación de Grafana con Helm (en el namespace de linkerd)
+
+### Paso 1: Agregamos la repo de grafana
+
+        helm repo add grafana https://grafana.github.io/helm-charts
+
+### Paso 2: Instalamos grafana con Helm
+
+        helm install grafana grafana/grafana --namespace linkerd
+
+### Paso 3: Exponemos el puerto de grafana
+
+        kubectl expose service grafana --type=NodePort --target-port=3000 --name=grafana-np --namespace linkerd
+
+### Paso 4: Obtenemos la clave de admin para grafana 
+
+        kubectl get secret --namespace linkerd grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+
+### Paso 5: Iniciamos el servicio de grafana y lanzamos el dashboard
+
+        minikube service grafana-np -n linkerd &
+
+Grafana dashboard
+
+¡[image]
+
+Para utilizar Grafana con Prometheus, es necesario configurar un origen de datos de tipo Prometheus:
+
+Para ello, accedemos al menú Configuration > Plugin y agregamos una nueva instancia de Prometheus.
+En la sección HTTP URL, proporcionamos la dirección y el puerto donde está ubicado nuestro servidor Prometheus.
+
+Posteriormente, para visualizar las métricas, es necesario importar un panel. Para hacerlo, seguimos estos pasos:
+
+1. Navegamos a Dashboards.
+2. Seleccionamos Import.
+3. Optamos por Import via grafana.com y copiamos el código del panel específico que deseamos utilizar con Kubernetes que es `6417`.
+
+Pulsamos en load ,luego importamos guardamos la configuracion y ya lo tendremos.
+
+¡[image]
+
+El usuario de grafana inicial es: `admin`
+
+Y la clave la obtenemos con: `kubectl get secret --namespace linkerd grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo`
