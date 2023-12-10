@@ -60,7 +60,7 @@ Con el plano de control y las extensiones instaladas y en funcionamiento, estamo
 
 Deberías ver una pantalla como esta:
 
-¡[image](image](https://github.com/oscarlucas22/Demo-PI/edit/main/README.md)https://github.com/oscarlucas22/Demo-PI/edit/main/imagenes)
+¡[image](https://github.com/oscarlucas22/Demo-PI/edit/main/imagenes/1.png)
 
 ## Paso 5: Instalar la aplicación de demostración
 
@@ -118,7 +118,7 @@ Añadimos la repo de prometheus a Helm
 
 Prometheus dashboard
 
-¡[image]
+¡[image](https://github.com/oscarlucas22/Demo-PI/edit/main/imagenes/2.png)
 
 ### Instalación de Grafana con Helm (en el namespace de linkerd)
 
@@ -144,8 +144,6 @@ Prometheus dashboard
 
 Grafana dashboard
 
-¡[image]
-
 Para utilizar Grafana con Prometheus, es necesario configurar un origen de datos de tipo Prometheus:
 
 Para ello, accedemos al menú Configuration > Plugin y agregamos una nueva instancia de Prometheus.
@@ -159,7 +157,7 @@ Posteriormente, para visualizar las métricas, es necesario importar un panel. P
 
 Pulsamos en load ,luego importamos guardamos la configuracion y ya lo tendremos.
 
-¡[image]
+¡[image](https://github.com/oscarlucas22/Demo-PI/edit/main/imagenes/3.png)
 
 El usuario de grafana inicial es: `admin`
 
