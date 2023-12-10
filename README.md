@@ -118,7 +118,7 @@ Añadimos la repo de prometheus a Helm
 
 Prometheus dashboard
 
-![image](https://github.com/oscarlucas22/Demo-PI/edit/main/imagenes/2.png)
+![image](https://github.com/oscarlucas22/Demo-PI/blob/main/imagenes/2.png)
 
 ### Instalación de Grafana con Helm (en el namespace de linkerd)
 
@@ -157,7 +157,7 @@ Posteriormente, para visualizar las métricas, es necesario importar un panel. P
 
 Pulsamos en load ,luego importamos guardamos la configuracion y ya lo tendremos.
 
-![image](https://github.com/oscarlucas22/Demo-PI/edit/main/imagenes/3.png)
+![image](https://github.com/oscarlucas22/Demo-PI/blob/main/imagenes/3.png)
 
 El usuario de grafana inicial es: `admin`
 
