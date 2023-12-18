@@ -82,9 +82,7 @@ Si explora Emojivoto y hace clic en diversas opciones, notará que presenta algu
 
 Con Emojivoto instalado y en ejecución, estamos listos para "inyectarlo", es decir, agregarle los servidores proxy del plano de datos de Linkerd. Podemos realizar esta acción en una aplicación en vivo sin tiempo de inactividad, gracias a las implementaciones continuas de Kubernetes. Inyecte Linkerd en su aplicación Emojivoto ejecutando:
 
-    kubectl get -n emojivoto deploy -o yaml \ 
-      | linkerd inject - \ 
-      | kubectl apply -f -
+    kubectl get -n emojivoto deploy -o yaml   | linkerd inject -   | kubectl apply -f -
 
 Este comando recupera todas las implementaciones que se ejecutan en el espacio de nombres "emojivoto", ejecuta sus manifiestos a través de "linkerd inject", y luego los vuelve a aplicar al clúster. (El comando "linkerd inject" simplemente añade anotaciones a la especificación del pod, indicando a Linkerd que inyecte el proxy en los pods cuando se crean).
 
